@@ -52,7 +52,7 @@ const faqs = [
   },
   {
     q: 'Why is it not out yet?',
-    a: "Because I'm still using it to build in public, and I'd rather ship it right than fast. Join the list and you'll get it the day it's done, at founder price.",
+    a: "Because I'm still using it to build in public, and I'd rather ship it right than fast. It drops in August 2026. Join the list and you'll get it that day, at founder price.",
   },
 ]
 
@@ -134,7 +134,7 @@ export default function App() {
       </nav>
 
       <header className="hero">
-        <p className="eyebrow">A Claude-powered build system · Coming soon</p>
+        <p className="eyebrow">A Claude-powered build system · Dropping August 2026</p>
         <h1>
           Your AI forgets everything<br />you told it <span className="accent">yesterday.</span>
         </h1>
@@ -214,7 +214,7 @@ export default function App() {
           <div className="divider" />
 
           <p className="wl-head">It isn't finished yet — and I won't take your money for something that doesn't exist.</p>
-          <p className="wl-sub">Get on the list. You'll get it the day it's done, at founder price.</p>
+          <p className="wl-sub">Dropping <strong>August 2026</strong>. Get on the list and you'll get it the day it's done, at founder price.</p>
           <Waitlist />
         </div>
       </section>
