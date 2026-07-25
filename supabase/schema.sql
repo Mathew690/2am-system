@@ -17,7 +17,8 @@ alter table public.waitlist enable row level security;
 
 -- Anonymous visitors may ONLY insert. Nobody can read the list from the browser,
 -- so the email list can't be scraped with the public key.
-drop policy if exists "anon can join waitlist" on public.waitlist;
+-- (No DROP here on purpose: nothing in this script removes anything. If you ever
+-- re-run it, the policy line will simply error with "already exists" — harmless.)
 create policy "anon can join waitlist"
   on public.waitlist for insert
   to anon, authenticated
