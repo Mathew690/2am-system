@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from './lib/supabase'
+import Particles from './Particles'
 import './App.css'
 
 function scrollToWaitlist() {
@@ -33,6 +34,20 @@ const engines = [
   },
 ]
 
+const steps = [
+  { n: '01', name: 'Get the vault', body: 'One download. Open it in Obsidian, point Claude at it, done in ten minutes.' },
+  { n: '02', name: 'Run the system', body: 'Idea → spec → phased checklist. The manager keeps the plan and tells you when you’re drifting.' },
+  { n: '03', name: 'Ship the thing', body: 'A live URL, auth, payments — the same rails that put a real SaaS on the internet.' },
+]
+
+const notThis = [
+  { not: 'Not video lectures', but: 'files you actually open' },
+  { not: 'Not a folder of notes', but: 'a vault Claude reads' },
+  { not: 'Not a subscription', but: 'one payment, yours forever' },
+  { not: 'Not theory', but: 'the exact setup that shipped ClipScry' },
+  { not: 'Not stale screenshots', but: 'this site was built with it' },
+]
+
 const faqs = [
   {
     q: 'Is this a course?',
@@ -55,6 +70,39 @@ const faqs = [
     a: "Because I'm still using it to build in public, and I'd rather ship it right than fast. It drops in August 2026. Join the list and you'll get it that day, at founder price.",
   },
 ]
+
+/**
+ * The vault screenshot section. Renders nothing at all until
+ * public/vault-graph.png exists — so this can ship live before the
+ * screenshot is taken without ever showing a broken box to a visitor.
+ */
+function VaultShot() {
+  const [missing, setMissing] = useState(false)
+  if (missing) return null
+
+  return (
+    <section className="section">
+      <p className="kicker">What it looks like</p>
+      <h2>Not a folder of notes.<br />A vault that gets <span className="accent">read</span>.</h2>
+      <figure className="shot">
+        <div className="shot-bar" aria-hidden="true">
+          <span className="dot dot-r" /><span className="dot dot-y" /><span className="dot dot-g" />
+          <span className="shot-title">the-2am-system — graph view</span>
+        </div>
+        <div className="shot-body">
+          <img
+            src="/vault-graph.png"
+            alt="The 2AM System vault open in Obsidian, graph view"
+            onError={() => setMissing(true)}
+          />
+        </div>
+      </figure>
+      <p className="shot-note">
+        Every note links to the others. Claude walks that web before it writes a single line.
+      </p>
+    </section>
+  )
+}
 
 function Waitlist() {
   const [email, setEmail] = useState('')
@@ -125,6 +173,7 @@ export default function App() {
   return (
     <div className="page">
       <div className="grid-bg" aria-hidden="true" />
+      <Particles />
 
       <nav className="nav">
         <span className="logo">
@@ -176,6 +225,27 @@ export default function App() {
         </div>
       </section>
 
+      <section className="section">
+        <p className="kicker">How it runs</p>
+        <h2>Three steps. That's the whole loop.</h2>
+        <div className="steps">
+          {steps.map((s, i) => (
+            <div className="step-wrap" key={s.n}>
+              <article className="step">
+                <span className="step-n">{s.n}</span>
+                <div>
+                  <h3>{s.name}</h3>
+                  <p>{s.body}</p>
+                </div>
+              </article>
+              {i < steps.length - 1 && <span className="step-arrow" aria-hidden="true">↓</span>}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <VaultShot />
+
       <section className="section proof">
         <p className="kicker">The receipt</p>
         <h2>I didn't write this system. I ran it.</h2>
@@ -193,6 +263,21 @@ export default function App() {
         <a className="proof-link" href="https://www.clipscry.com" target="_blank" rel="noreferrer">
           See what it built →
         </a>
+      </section>
+
+      <section className="section">
+        <p className="kicker">To be clear</p>
+        <h2>Why this isn't <span className="accent">another course</span>.</h2>
+        <ul className="not-list">
+          {notThis.map((r, i) => (
+            <li key={r.not}>
+              <span className="not-n">{String(i + 1).padStart(2, '0')}</span>
+              <span className="not-a">{r.not}</span>
+              <span className="not-arrow" aria-hidden="true">→</span>
+              <span className="not-b">{r.but}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="section" id="waitlist">

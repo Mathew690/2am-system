@@ -41,6 +41,14 @@ body {
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
 }
 
+/* drifting green lights — ambience, sits above the grid, below everything else */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
 /* ---------- nav ---------- */
 .nav {
   display: flex;
@@ -218,6 +226,127 @@ body {
 }
 
 .engine-body { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* ---------- how it runs ---------- */
+.steps { display: grid; }
+
+.step-wrap { display: grid; justify-items: center; }
+
+.step {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 26px;
+  transition: border-color 0.2s;
+}
+
+.step:hover { border-color: var(--accent-dim); }
+
+.step-n {
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.step:hover .step-n { color: var(--accent-dim); }
+
+.step h3 { margin: 0 0 4px; font-size: 1.1rem; letter-spacing: -0.015em; }
+.step p { margin: 0; color: var(--muted); font-size: 15px; }
+
+.step-arrow {
+  color: var(--accent);
+  opacity: 0.55;
+  font-size: 18px;
+  line-height: 1;
+  padding: 10px 0;
+}
+
+/* ---------- vault screenshot ---------- */
+.shot {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 70px rgba(34, 197, 94, 0.06);
+}
+
+.shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+
+.shot-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shot-body { line-height: 0; background: #0d0d0f; }
+
+.shot-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+.shot-note {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ---------- why this isn't another course ---------- */
+.not-list { list-style: none; padding: 0; margin: 0; }
+
+.not-list li {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.not-list li:last-child { border-bottom: 0; }
+
+.not-n {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+.not-a { color: var(--muted); font-size: 15px; }
+
+.not-arrow { color: var(--accent); font-size: 14px; }
+
+.not-b {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+}
 
 /* ---------- proof ---------- */
 .proof-body {
@@ -404,4 +533,15 @@ body {
   .price-card { padding: 26px 22px; }
   .engine { flex-direction: column; gap: 12px; padding: 22px; }
   .cta { width: 100%; }
+  .step { gap: 16px; padding: 20px; }
+
+  /* stack the comparison rows so nothing gets crushed on a phone */
+  .not-list li {
+    grid-template-columns: auto 1fr;
+    gap: 6px 12px;
+    padding: 16px 4px;
+  }
+  .not-arrow { display: none; }
+  .not-b { grid-column: 2; }
+  .not-b::before { content: "→ "; color: var(--accent); }
 }
