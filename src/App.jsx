@@ -87,12 +87,12 @@ function VaultShot() {
       <figure className="shot">
         <div className="shot-bar" aria-hidden="true">
           <span className="dot dot-r" /><span className="dot dot-y" /><span className="dot dot-g" />
-          <span className="shot-title">the-2am-system — graph view</span>
+          <span className="shot-title">the-2am-system · 23 notes · 56 links</span>
         </div>
         <div className="shot-body">
           <img
-            src="/vault-graph.png"
-            alt="The 2AM System vault open in Obsidian, graph view"
+            src="/vault-graph.svg"
+            alt="Link graph of The 2AM System vault: 23 notes connected by 56 links"
             onError={() => setMissing(true)}
           />
         </div>
