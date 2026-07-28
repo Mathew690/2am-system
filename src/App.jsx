@@ -72,9 +72,9 @@ const faqs = [
 ]
 
 /**
- * The vault screenshot section. Renders nothing at all until
- * public/vault-graph.png exists — so this can ship live before the
- * screenshot is taken without ever showing a broken box to a visitor.
+ * The vault graph section. Renders nothing at all if public/vault-graph.svg
+ * is missing, so the page never shows a broken box. Regenerate the SVG with
+ * tools/render_graph.py after adding notes, and update the counts above.
  */
 function VaultShot() {
   const [missing, setMissing] = useState(false)
