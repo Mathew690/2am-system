@@ -87,12 +87,12 @@ function VaultShot() {
       <figure className="shot">
         <div className="shot-bar" aria-hidden="true">
           <span className="dot dot-r" /><span className="dot dot-y" /><span className="dot dot-g" />
-          <span className="shot-title">the-2am-system · 34 notes · 99 links</span>
+          <span className="shot-title">the-2am-system · 34 notes · 122 links</span>
         </div>
         <div className="shot-body">
           <img
             src="/vault-graph.svg"
-            alt="Link graph of The 2AM System vault: 34 notes connected by 99 links"
+            alt="Link graph of The 2AM System vault: 34 notes connected by 122 links"
             onError={() => setMissing(true)}
           />
         </div>
