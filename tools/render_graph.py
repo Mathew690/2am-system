@@ -31,6 +31,18 @@ names = sorted(paths)
 idx = {n: i for i, n in enumerate(names)}
 edges = set()
 
+# Obsidian resolves a [[link]] by filename OR by an alias in frontmatter.
+# The notes are numbered on disk but linked by their plain names, so without
+# this the graph would come back almost entirely disconnected.
+FM = re.compile(r"^---\n(.*?)\n---\n", re.S)
+ALIAS = re.compile(r'-\s*"?([^"\n]+?)"?\s*$', re.M)
+for n in names:
+    m = FM.match(io.open(paths[n], encoding="utf-8").read())
+    if not m:
+        continue
+    for al in ALIAS.findall(m.group(1)):
+        idx.setdefault(al.strip(), idx[n])
+
 for n in names:
     body = io.open(paths[n], encoding="utf-8").read()
     body = CODE.sub("", body)  # ignore wikilink examples inside backticks
@@ -137,8 +149,9 @@ for i, n in enumerate(names):
 for i, n in enumerate(names):
     x, y = P[i]
     fs = 15 if deg[i] >= maxdeg * 0.55 else 13
+    label = re.sub(r'^\d+[a-z]? - ', '', n)
     o.append(f'<text x="{x:.1f}" y="{y + radius(i) + fs + 3:.1f}" text-anchor="middle" '
-             f'font-size="{fs}" fill="#c9cbd1" fill-opacity="0.82">{n}</text>')
+             f'font-size="{fs}" fill="#c9cbd1" fill-opacity="0.82">{label}</text>')
 
 o.append('</svg>')
 
