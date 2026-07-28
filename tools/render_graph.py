@@ -19,16 +19,20 @@ GREEN_SOFT = "#86efac"
 LINK = re.compile(r"\[\[([^\]|#]+)")
 CODE = re.compile(r"`[^`]*`")
 
-names, edges = [], set()
-for fn in sorted(os.listdir(VAULT)):
-    if not fn.endswith(".md"):
-        continue
-    names.append(fn[:-3])
+# walk subfolders too — Obsidian's own graph includes them, so ours must
+paths = {}
+for root, dirs, files in os.walk(VAULT):
+    dirs[:] = [d for d in dirs if not d.startswith(".")]
+    for fn in files:
+        if fn.endswith(".md"):
+            paths[fn[:-3]] = os.path.join(root, fn)
 
+names = sorted(paths)
 idx = {n: i for i, n in enumerate(names)}
+edges = set()
 
 for n in names:
-    body = io.open(os.path.join(VAULT, n + ".md"), encoding="utf-8").read()
+    body = io.open(paths[n], encoding="utf-8").read()
     body = CODE.sub("", body)  # ignore wikilink examples inside backticks
     for m in LINK.findall(body):
         t = m.strip()
