@@ -317,6 +317,79 @@ body {
   text-align: center;
 }
 
+/* ---------- build log wall ---------- */
+.log-intro {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 560px;
+  margin: -20px 0 30px;
+}
+
+.log-wall {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  height: 460px;
+  overflow: hidden;
+  position: relative;
+  /* fade the cards out at both ends so they drift in and out of nothing */
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.log-wall-sm { display: none; }
+
+.log-col { overflow: hidden; }
+
+.log-track {
+  display: grid;
+  gap: 14px;
+  animation: log-scroll 34s linear infinite;
+}
+
+/* second column drifts the other way */
+.log-col-rev .log-track {
+  animation-direction: reverse;
+  animation-duration: 40s;
+}
+
+/* the track holds two copies, so -50% lands exactly on the seam */
+@keyframes log-scroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+.log-wall:hover .log-track { animation-play-state: paused; }
+
+.log-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-dim);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.log-card p { margin: 6px 0 0; font-size: 14px; color: var(--text); line-height: 1.5; }
+
+.log-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .log-wall {
+    height: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .log-track { animation: none; }
+  /* the duplicate copy is decorative — hide it when nothing is moving */
+  .log-track > [aria-hidden="true"] { display: none; }
+}
+
 /* ---------- why this isn't another course ---------- */
 .not-list { list-style: none; padding: 0; margin: 0; }
 
@@ -534,6 +607,10 @@ body {
   .engine { flex-direction: column; gap: 12px; padding: 22px; }
   .cta { width: 100%; }
   .step { gap: 16px; padding: 20px; }
+
+  /* swap the two-column wall for the single full-log one */
+  .log-wall { display: none; }
+  .log-wall-sm { display: grid; grid-template-columns: 1fr; height: 400px; }
 
   /* stack the comparison rows so nothing gets crushed on a phone */
   .not-list li {

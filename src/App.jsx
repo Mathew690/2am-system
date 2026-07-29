@@ -40,6 +40,21 @@ const steps = [
   { n: '03', name: 'Ship the thing', body: 'A live URL, auth, payments — the same rails that put a real SaaS on the internet.' },
 ]
 
+// Real entries only. When there are testimonials, they replace these —
+// until then, dated build-log facts do the same job without inventing anyone.
+const log = [
+  { d: '06 Jul', t: 'First live URL. The app did nothing. Didn\'t matter.' },
+  { d: '06 Jul', t: '175 clips indexed. Searched a word I said last month — got the file and the second.' },
+  { d: '11 Jul', t: 'Bought the domain. First money ever spent on a business.' },
+  { d: '12 Jul', t: 'First payment went through, end to end. The app upgraded an account by itself.' },
+  { d: '14 Jul', t: 'Shipped a fix for a bug that logged people out after checkout. Took two attempts.' },
+  { d: '21 Jul', t: 'ClipScry live at clipscry.com. Auth, database, payments, custom domain.' },
+  { d: '25 Jul', t: 'First reel: 1.2K views, 7 saves, 2 strangers asked for the link.' },
+  { d: '25 Jul', t: 'This page went live. Built in one night, with the system it sells.' },
+  { d: '28 Jul', t: 'Vault finished: 34 notes, 122 links, 6 templates, 2 real worked examples.' },
+  { d: 'Aug', t: 'It drops. The date is on this page so I can\'t quietly move it.' },
+]
+
 const notThis = [
   { not: 'Not video lectures', but: 'files you actually open' },
   { not: 'Not a folder of notes', but: 'a vault Claude reads' },
@@ -100,6 +115,58 @@ function VaultShot() {
       <p className="shot-note">
         Every note links to the others. Claude walks that web before it writes a single line.
       </p>
+    </section>
+  )
+}
+
+/**
+ * Auto-scrolling build log. Two columns drifting in opposite directions,
+ * each rendered twice so the loop is seamless. Pauses on hover, and
+ * prefers-reduced-motion turns it into a plain static list.
+ */
+function BuildLog() {
+  const half = Math.ceil(log.length / 2)
+  const cols = [log.slice(0, half), log.slice(half)]
+
+  return (
+    <section className="section">
+      <p className="kicker">The receipts</p>
+      <h2>No testimonials yet.<br />Just <span className="accent">dates</span>.</h2>
+      <p className="log-intro">
+        Nobody has bought this, because it isn&rsquo;t out. What does exist is a
+        trail of things that actually happened, in order.
+      </p>
+
+      {/* two drifting columns on desktop */}
+      <div className="log-wall">
+        {cols.map((col, ci) => (
+          <div className={`log-col ${ci === 1 ? 'log-col-rev' : ''}`} key={ci}>
+            <div className="log-track">
+              {[...col, ...col].map((e, i) => (
+                <article className="log-card" key={i} aria-hidden={i >= col.length}>
+                  <span className="log-date">{e.d}</span>
+                  <p>{e.t}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* one column with every entry on a phone — splitting in two at 375px
+          would either be unreadable or silently drop half the log */}
+      <div className="log-wall log-wall-sm">
+        <div className="log-col">
+          <div className="log-track">
+            {[...log, ...log].map((e, i) => (
+              <article className="log-card" key={i} aria-hidden={i >= log.length}>
+                <span className="log-date">{e.d}</span>
+                <p>{e.t}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
@@ -264,6 +331,8 @@ export default function App() {
           See what it built →
         </a>
       </section>
+
+      <BuildLog />
 
       <section className="section">
         <p className="kicker">To be clear</p>
